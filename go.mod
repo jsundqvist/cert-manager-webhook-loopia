@@ -1,11 +1,13 @@
-module github.com/cert-manager/webhook-example
+module github.com/Identitry/cert-manager-webhook-loopia
 
-go 1.13
+go 1.16
 
 require (
 	github.com/jetstack/cert-manager v1.2.0
-	github.com/miekg/dns v1.1.31
-	github.com/stretchr/testify v1.6.1
-	k8s.io/apiextensions-apiserver v0.19.0
-	k8s.io/client-go v0.19.0
+	github.com/jonlil/loopia-go v0.0.0-20181104214505-c949ebebf8e9
+	github.com/kolo/xmlrpc v0.0.0-20201022064351-38db28db192b // indirect
+	k8s.io/apiextensions-apiserver v0.20.4
+	k8s.io/apimachinery v0.20.4 // indirect
+	k8s.io/client-go v0.20.4
+	k8s.io/klog v1.0.0 // indirect
 )

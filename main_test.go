@@ -5,35 +5,24 @@ import (
 	"testing"
 
 	"github.com/jetstack/cert-manager/test/acme/dns"
-
-	"github.com/cert-manager/webhook-example/example"
 )
 
 var (
+	// Environment variable holding the name of the zone to test, ex: example.com however this needs to be a zone you have control over in Loopia.
+	// This needs to be set before running the test.
 	zone = os.Getenv("TEST_ZONE_NAME")
 )
 
 func TestRunsSuite(t *testing.T) {
-	// The manifest path should contain a file named config.json that is a
-	// snippet of valid configuration that should be included on the
-	// ChallengeRequest passed as part of the test cases.
-	//
+	// The manifest path should contain a file named config.json that is a sniplet of valid configuration that should be included on the ChallengeRequest passed as part of the test cases.
+	// The test fixture also requires the kubebuilder-tools binary for your os/architecture to be downloaded to testdata/bin, there is a script supplied that does this in testdata/scripts.
 
-	// Uncomment the below fixture when implementing your custom DNS provider
-	//fixture := dns.NewFixture(&customDNSProviderSolver{},
-	//	dns.SetResolvedZone(zone),
-	//	dns.SetAllowAmbientCredentials(false),
-	//	dns.SetManifestPath("testdata/my-custom-solver"),
-	//	dns.SetBinariesPath("_test/kubebuilder/bin"),
-	//)
-
-	solver := example.New("59351")
+	solver := &loopiaDNSProviderSolver{}
 	fixture := dns.NewFixture(solver,
-		dns.SetResolvedZone("example.com."),
-		dns.SetManifestPath("testdata/my-custom-solver"),
-		dns.SetBinariesPath("_test/kubebuilder/bin"),
-		dns.SetDNSServer("127.0.0.1:59351"),
-		dns.SetUseAuthoritative(false),
+		dns.SetBinariesPath("testdata/bin"),
+		dns.SetResolvedZone(zone),
+		dns.SetAllowAmbientCredentials(false),
+		dns.SetManifestPath("testdata/loopia"),
 	)
 
 	fixture.RunConformance(t)
